@@ -133,7 +133,7 @@ website_entry.grid(row=1, column=1, columnspan=2)
 generate_button = tk.Button(text="Generate Password", command=random_password)
 generate_button.grid(row=3, column=2)
 
-add_button = tk.Button(text="Add Password", width=47, command=add_password)
+add_button = tk.Button(text="Add Password", width=30, command=add_password)
 add_button.grid(row=4, column=1)
 
 search_button = tk.Button(text="Search", width=15, command=search_password)
