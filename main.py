@@ -5,6 +5,34 @@ import random
 import pyperclip
 import json as j
 
+# ---------------------------- CLEAR ENTRIES ------------------------------- #
+
+def clear_data():
+    response = messagebox.askokcancel(title="Clear", message="Are you sure you want to clear all entries?")
+    if response:
+        website_entry.delete(0, 'end')
+        email_entry.delete(0, 'end')
+        password_entry.delete(0, 'end')
+
+
+# ---------------------------- SEARCH PASSWORD ------------------------------- #
+
+def search_password():
+    search_website = website_entry.get()
+    if len(search_website) == 0:
+        messagebox.showinfo(title="Incomplete Data", message="Please fill all the necessary details")
+    else:
+        try:
+            with open("data_json.json", "r") as searchable_file:
+                searchable_data = j.load(searchable_file)
+                try:
+                    messagebox.showinfo(title="Password Details",
+                                        message=f"Website: {search_website}\nUsername: {searchable_data[search_website]["usernames"]}\nPassword: {searchable_data[search_website]["passwords"]}")
+                except KeyError:
+                    messagebox.showinfo(title="Not Found", message=f"No data pertaining to {search_website}.")
+        except FileNotFoundError:
+            messagebox.showinfo(title="Empty File", message="No data saved.")
+
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -106,6 +134,12 @@ generate_button = tk.Button(text="Generate Password", command=random_password)
 generate_button.grid(row=3, column=2)
 
 add_button = tk.Button(text="Add Password", width=47, command=add_password)
-add_button.grid(row=4, column=1, columnspan=2)
+add_button.grid(row=4, column=1)
+
+search_button = tk.Button(text="Search", width=15, command=search_password)
+search_button.grid(row=1, column=2)
+
+clear_button = tk.Button(text="Clear", width=15, command=clear_data)
+clear_button.grid(row=4, column=2)
 
 window.mainloop()
